@@ -1,6 +1,6 @@
 let canvs=document.getElementById('my_canvas');
-let c1=window.innerWidth;
-let c2=window.innerHeight;
+let c1=1600;
+let c2=450;
 canvs.height=c2;
 canvs.width=c1/2;
 canvs.style.backgroundColor='black';
@@ -40,6 +40,15 @@ class Circle
                 this.dx=-this.dx;        
                 this.dy=rect.dy;
                 this.hitcnt+=1;
+            }
+            else
+            {
+                this.xpos=c1/4;
+                this.ypos=c2/2;
+                this.speed=0;
+                this.dx=0;
+                this.dy=0;
+                display();
             }
         }
         if(this.ypos>c2)
@@ -91,7 +100,7 @@ function moveRectangle()
     requestAnimationFrame(moveRectangle);
     rect.update();
 }
-let ball=new Circle(c1/4,c2/2,2,'white',2);
+let ball=new Circle(c1/4,c2/2,2,'white',6);
 ball.draw(context);
 moveBall();
 let y=1;
@@ -102,10 +111,10 @@ moveRectangle();
 document.addEventListener('keypress',(e)=>{
     switch(e.key)
     {
-        case 'w':y=3;
+        case 'w':y=5;
         console.log('w');
         break;
-        case 's':y=-3;
+        case 's':y=-5;
         console.log('s');
         break;
         default : y=0;
@@ -113,7 +122,9 @@ document.addEventListener('keypress',(e)=>{
     }
     rect.keychange(y);
 })
-function gameOver()
+
+function display()
 {
-    console.log(ball.hitcnt);
+    let gameover=document.getElementById('gameover');
+    gameover.innerText=`your score bhai ${ball.hitcnt}`;
 }

@@ -16,6 +16,7 @@ class Circle
         this.speed=speed;
         this.dx=speed;
         this.dy=speed;
+        this.hitcnt=0;
     }
     draw(context)
     {
@@ -32,8 +33,15 @@ class Circle
         this.ypos+=this.dy;
         if(this.xpos>c1/2)
             this.dx=-this.dx        
-        if(this.xpos<10 && this.ypos>rect.ypos && this.ypos<rect.ypos+100)
-            this.dx=-this.dx;        
+        if(this.xpos<10)
+        {
+            if(this.ypos>rect.ypos && this.ypos<rect.ypos+100)
+            {
+                this.dx=-this.dx;        
+                this.dy=rect.dy;
+                this.hitcnt+=1;
+            }
+        }
         if(this.ypos>c2)
             this.dy=-this.dy        
         if(this.ypos<0)
@@ -71,9 +79,9 @@ class Rectangle
     {
         this.ypos+=this.dy;
         if(this.ypos+100>c2)
-            this.dy=-this.dy;
+            this.ypos-=this.dy;
         if(this.ypos<0)
-            this.dy=-this.dy;
+            this.ypos-=this.dy;
         this.draw(context);
     }
 }
@@ -83,7 +91,7 @@ function moveRectangle()
     requestAnimationFrame(moveRectangle);
     rect.update();
 }
-let ball=new Circle(c1/4,c2/2,2,'white',1);
+let ball=new Circle(c1/4,c2/2,2,'white',2);
 ball.draw(context);
 moveBall();
 let y=1;
@@ -105,3 +113,7 @@ document.addEventListener('keypress',(e)=>{
     }
     rect.keychange(y);
 })
+function gameOver()
+{
+    console.log(ball.hitcnt);
+}

@@ -28,25 +28,80 @@ class Circle
     }
     update()
     {
-        context.clearRect(0,0,c1/2,c2);
         this.xpos+=this.dx;
         this.ypos+=this.dy;
-    if(this.xpos>c1/2)
-        this.dx=-this.dx        
-    if(this.xpos<0)
-        this.dx=-this.dx        
-    if(this.ypos>c2)
-        this.dy=-this.dy        
-    if(this.ypos<0)
-        this.dy=-this.dy        
+        if(this.xpos>c1/2)
+            this.dx=-this.dx        
+        if(this.xpos<10)
+            this.dx=-this.dx        
+        if(this.ypos>c2)
+            this.dy=-this.dy        
+        if(this.ypos<0)
+            this.dy=-this.dy        
         this.draw(context);
     }
 }
-function move()
+function moveBall()
 {
-    requestAnimationFrame(move);
+    context.clearRect(10,0,c1/2,c2);
+    requestAnimationFrame(moveBall);
     ball.update();
+}
+class Rectangle
+{
+    constructor(xpos,ypos,width,height,speed)
+    {
+        this.xpos=xpos;
+        this.ypos=ypos;
+        this.width=width;
+        this.height=height;
+        this.speed=speed;
+        this.dy=speed;
+    }
+    keychange(y)
+    {
+        this.dy=y;
+    }
+    draw(context)
+    {
+        context.fillStyle='white';
+        context.fillRect(this.xpos,this.ypos,this.width,this.height);
+    }
+    update()
+    {
+        this.ypos+=this.dy;
+        if(this.ypos+100>c2)
+            this.dy=-this.dy;
+        if(this.ypos<0)
+            this.dy=-this.dy;
+        this.draw(context);
+    }
+}
+function moveRectangle()
+{
+    context.clearRect(0,0,10,c2);
+    requestAnimationFrame(moveRectangle);
+    rect.update();
 }
 let ball=new Circle(c1/4,c2/2,2,'white',1);
 ball.draw(context);
-move();
+moveBall();
+let y=1;
+let rect=new Rectangle(1,1,10,100,0);
+rect.draw(context);
+moveRectangle();
+
+document.addEventListener('keypress',(e)=>{
+    switch(e.key)
+    {
+        case 'w':y=1;
+        console.log('w');
+        break;
+        case 's':y=-1;
+        console.log('s');
+        break;
+        default : y=0;
+        break;
+    }
+    rect.keychange(y);
+})

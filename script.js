@@ -32,8 +32,8 @@ class Circle
         this.ypos+=this.dy;
         if(this.xpos>c1/2)
             this.dx=-this.dx        
-        if(this.xpos<10)
-            this.dx=-this.dx        
+        if(this.xpos<10 && this.ypos>rect.ypos && this.ypos<rect.ypos+100)
+            this.dx=-this.dx;        
         if(this.ypos>c2)
             this.dy=-this.dy        
         if(this.ypos<0)
@@ -94,10 +94,10 @@ moveRectangle();
 document.addEventListener('keypress',(e)=>{
     switch(e.key)
     {
-        case 'w':y=1;
+        case 'w':y=3;
         console.log('w');
         break;
-        case 's':y=-1;
+        case 's':y=-3;
         console.log('s');
         break;
         default : y=0;
